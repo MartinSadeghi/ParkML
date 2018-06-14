@@ -4,8 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/holo_orange_light"
+    android:background="@android:color/background_dark"
     tools:context=".HomeActivity">
+    //android:theme="@android:style/Theme.NoTitleBar">
+
+
 
     <TextView
         android:id="@+id/textView"
@@ -14,8 +17,11 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="58dp"
+        android:background="@android:color/background_dark"
         android:gravity="center"
         android:text="@string/got_into_the_car"
+
+        android:textColor="@android:color/background_light"
         android:textSize="35sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -23,53 +29,14 @@
         tools:layout_editor_absoluteY="75dp" />
 
     <Button
-        android:id="@+id/mapbtn"
-        android:layout_width="320dp"
-        android:layout_height="60dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="200dp"
-        android:background="@android:color/holo_red_dark"
-        android:text="@string/google_maps"
-        android:onClick="process"
-        android:textSize="30sp"
-        tools:layout_editor_absoluteX="30dp"
-        tools:layout_editor_absoluteY="230dp" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="320dp"
-        android:layout_height="60dp"
+        android:id="@+id/button"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="131dp"
+        android:layout_height="67dp"
+        android:textSize="18dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="179dp"
-        android:gravity="center"
-        android:text="@string/do_you_want_to_park"
-        android:textSize="29sp"
-        android:textStyle="bold"
-        tools:layout_editor_absoluteX="32dp"
-        tools:layout_editor_absoluteY="310dp" />
+        android:layout_marginBottom="178dp"
+        android:text="LET'S START" />
 
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="100dp"
-        android:layout_height="50dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginBottom="40dp"
-        android:layout_marginEnd="61dp"
-        android:background="@android:drawable/checkbox_on_background"
-        tools:layout_editor_absoluteX="239dp"
-        tools:layout_editor_absoluteY="406dp" />
-
-    <Button
-        android:id="@+id/button3"
-        android:layout_width="100dp"
-        android:layout_height="50dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignTop="@+id/button2"
-        android:layout_marginStart="60dp"
-        android:background="@android:drawable/btn_dialog"
-        tools:layout_editor_absoluteX="45dp"
-        tools:layout_editor_absoluteY="406dp" />
 </RelativeLayout>
