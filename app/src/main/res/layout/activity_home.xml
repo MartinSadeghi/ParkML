@@ -9,7 +9,6 @@
     //android:theme="@android:style/Theme.NoTitleBar">
 
 
-
     <TextView
         android:id="@+id/textView"
         android:layout_width="320dp"
@@ -19,24 +18,41 @@
         android:layout_marginTop="58dp"
         android:background="@android:color/background_dark"
         android:gravity="center"
-        android:text="@string/got_into_the_car"
+        android:text="Got into the Car!"
 
         android:textColor="@android:color/background_light"
         android:textSize="35sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         tools:layout_editor_absoluteY="75dp" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/button1"
         style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="131dp"
-        android:layout_height="67dp"
-        android:textSize="18dp"
+        android:layout_width="165dp"
+        android:layout_height="74dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="178dp"
-        android:text="LET'S START" />
+        android:layout_marginBottom="199dp"
+        android:background="@android:color/holo_red_dark"
+        android:text="LET'S START"
+        android:textAllCaps="false"
+        android:textSize="20dp"
+        android:textStyle="bold|italic" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="188dp"
+        android:layout_height="80dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="99dp"
+        android:background="#000899"
+        android:text="DONE !"
+        android:textColor="@android:color/background_light"
+        android:textSize="28sp"
+        android:textStyle="bold|italic" />
 
 </RelativeLayout>

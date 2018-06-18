@@ -10,14 +10,15 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
     private static int SPLASH_TIME_OUT = 4004;
-    //Button mapbtn;
+    Button button2;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_main );
-        new Handler(  ).postDelayed( new Runnable() {
+        new Handler().postDelayed( new Runnable() {
             @Override
             public void run() {
                 Intent homeintent = new Intent( MainActivity.this, HomeActivity.class );
@@ -25,33 +26,10 @@ public class MainActivity extends AppCompatActivity {
                 startActivity( homeintent );
                 finish();
             }
-        },SPLASH_TIME_OUT );
-
-}
-    }
-       /* @Override
-        public void onClick (View view){
-            Intent i = getPackageManager().getLaunchIntentForPackage();
-            startActivity( i );
-        }
-        mapbtn = findViewById( R.id.mapbtn );
-        mapbtn.setOnClickListener( new View.OnClickListener() {
-
-                newHandler().postDelayed( new Runnable() {
-                @Override
-                public void run () {
-
-        }
+        }, SPLASH_TIME_OUT );
 
     }
 
-    /*public void process(View view) {
-        Intent intent = null, chooser = null;
-        if (view.getId() == R.id.mapbtn) {
-            intent = new Intent( Intent.ACTION_VIEW );
-            intent.setData( Uri.parse( "geo:19.067,72.877" ) );
-            chooser = Intent.createChooser( intent, "GOOGLE MAPS" );
-        }
-            startActivity( chooser );
-        }*/
+
+    }
 
