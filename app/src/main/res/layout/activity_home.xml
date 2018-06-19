@@ -37,6 +37,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="199dp"
         android:background="@android:color/holo_red_dark"
+        android:onClick="StartListener"
         android:text="LET'S START"
         android:textAllCaps="false"
         android:textSize="20dp"

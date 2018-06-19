@@ -11,8 +11,8 @@ public class Dialog1 extends AppCompatDialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder( getActivity() );
-        builder.setTitle( "" )
-                .setMessage( "\t HAVE FUN" )
+        builder.setTitle( "Information!" )
+                .setMessage( "HAVE FUN" )
                 .setPositiveButton( "OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int i) {
