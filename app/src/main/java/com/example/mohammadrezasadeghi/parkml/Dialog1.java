@@ -23,24 +23,5 @@ public class Dialog1 extends AppCompatDialogFragment {
     }
 }
 
-       /* private Dialog onCreatDialog(Bundle SaveInstanceState) {
-        AlertDialog.Builder builder = new AlertDialog.Builder( getActivity() );
-        final AlertDialog.Builder builder1 = builder.setTitle( "" )
-                .setMessage( "Thanks for Using " )
-                .setPositiveButton( "OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
 
 
-                    }
-                } );
-        return builder.create();
-
-
-
-    }
-
-
-}
-
-       */
