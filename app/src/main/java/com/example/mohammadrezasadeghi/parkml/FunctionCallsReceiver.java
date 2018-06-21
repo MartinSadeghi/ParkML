@@ -8,8 +8,14 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.URL;
+import java.net.URLConnection;
 import java.sql.Timestamp;
 
 import hrituc.studenti.uniroma1.it.generocityframework.Constants;
@@ -19,25 +25,25 @@ import hrituc.studenti.uniroma1.it.generocityframework.TripPoint;
 public class FunctionCallsReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (Constants.LOGS) Log.e("FunctionCallsReceiver", "onReceive called");
+        if (Constants.LOGS) Log.e( "FunctionCallsReceiver", "onReceive called" );
         String action = intent.getAction();
-        if (Constants.DID_ENTER_CAR.equals(action)){
+        if (Constants.DID_ENTER_CAR.equals( action )) {
 
             //get the bluetooth device that the user is connected to. BluetoothDevice.EXTRA_DEVICE is
             //an android constant, so since it was there I decided to use it.
-            BluetoothDevice connectedDevice = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+            BluetoothDevice connectedDevice = intent.getParcelableExtra( BluetoothDevice.EXTRA_DEVICE );
 
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(context,"isInCar");
-            builder.setContentText("Did enter car");
+            NotificationCompat.Builder builder = new NotificationCompat.Builder( context, "isInCar" );
+            builder.setContentText( "Did enter car" );
             builder.setSmallIcon( hrituc.studenti.uniroma1.it.generocityframework.R.mipmap.ic_launcher );
             builder.setContentTitle( "FunctionCallsReceiver" );
-            NotificationManagerCompat.from(context).notify(7, builder.build());
-        } else if (Constants.DID_EXIT_CAR.equals(action)){
+            NotificationManagerCompat.from( context ).notify( 7, builder.build() );
+        } else if (Constants.DID_EXIT_CAR.equals( action )) {
             //extract the parking position
-            ParkingLocation parkingLocation = ParkingLocation.fromIntent(context,intent);
+            ParkingLocation parkingLocation = ParkingLocation.fromIntent( context, intent );
 
             //get the device that the user was connected to
-            BluetoothDevice previouslyConnectedDevice = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+            BluetoothDevice previouslyConnectedDevice = intent.getParcelableExtra( BluetoothDevice.EXTRA_DEVICE );
 
             //The parking location may be null in some rare cases, like if the user manually disables
             //the position setting on his phone
@@ -46,68 +52,95 @@ public class FunctionCallsReceiver extends BroadcastReceiver {
             if (parkingLocation != null) {
                 latitude = parkingLocation.getLatitude();
                 longitude = parkingLocation.getLongitude();
-                if (Constants.LOGS) Log.e("FunctionCallsReceiver", "parking location extracted");
+                if (Constants.LOGS) Log.e( "FunctionCallsReceiver", "parking location extracted" );
             }
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(context,"isInCar");
-            builder.setContentText("Did exit car on lat: "+latitude+" - lon: "+longitude);
+            NotificationCompat.Builder builder = new NotificationCompat.Builder( context, "isInCar" );
+            builder.setContentText( "Did exit car on lat: " + latitude + " - lon: " + longitude );
             builder.setSmallIcon( hrituc.studenti.uniroma1.it.generocityframework.R.mipmap.ic_launcher );
             builder.setContentTitle( "FunctionCallsReceiver" );
-            NotificationManagerCompat.from(context).notify(8, builder.build());
-        } else if (Constants.WILL_EXIT_CAR.equals(action)) {
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(context,"willExit");
-            builder.setContentText("Will exit car");
+            NotificationManagerCompat.from( context ).notify( 8, builder.build() );
+        } else if (Constants.WILL_EXIT_CAR.equals( action )) {
+            NotificationCompat.Builder builder = new NotificationCompat.Builder( context, "willExit" );
+            builder.setContentText( "Will exit car" );
             builder.setSmallIcon( hrituc.studenti.uniroma1.it.generocityframework.R.mipmap.ic_launcher );
             builder.setContentTitle( "FunctionCallsReceiver" );
-            NotificationManagerCompat.from(context).notify(9, builder.build());
-        } else if (Constants.TRIP_POINT.equals(action)) {
+            NotificationManagerCompat.from( context ).notify( 9, builder.build() );
+        } else if (Constants.TRIP_POINT.equals( action )) {
             //extract the data from the intent
-            TripPoint tripPoint = TripPoint.fromIntent(intent);
+            TripPoint tripPoint = TripPoint.fromIntent( intent );
             double lat = tripPoint.getLatitude();
             double lon = tripPoint.getLongitude();
             float speed = tripPoint.getSpeed();
             Timestamp timestamp = tripPoint.getTimestamp();
             //do stuff with these
 
-            JSONObject jArrayTripPointData = new JSONObject();
-            JSONObject jObjectType = new JSONObject();
-
-            // put elements into the object as a key-value pair
-            jObjectType.put("type", "facebook_login");
-
-            jArrayFacebookData.put("system", jObjectType);
-
-            // 2nd array for user information
             JSONObject jObjectData = new JSONObject();
+            BufferedReader reader = null;
+
+            // Create Json Object using TripPoint  Data
+            try {
+                jObjectData.put("latitude", lat);
+                jObjectData.put("longitude", lon);
+                jObjectData.put("speed", speed);
+                jObjectData.put("timestamp", timestamp);
+                try
+                {
+                    // Defined URL  where to send data
+                    URL url = new URL("/media/webservice/httppost.php");
+
+                    // Send POST data request
+
+                    URLConnection conn = url.openConnection();
+                    conn.setDoOutput(true);
+                    OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
+                    wr.write( jObjectData.toString() );
+                    wr.flush();
+
+                    // Get the server response
+
+                    reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                    StringBuilder sb = new StringBuilder();
+                    String line = null;
+
+                    // Read Server Response
+                    while((line = reader.readLine()) != null)
+                    {
+                        // Append server response in string
+                        sb.append(line + "\n");
+                    }
+
+                }
+                catch(Exception ex)
+                {
+
+                }
+                finally
+                {
+                    try
+                    {
+
+                        reader.close();
+                    }
+
+                    catch(Exception ex) {}
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
 
-            // Create Json Object using Facebook Data
-            jObjectData.put("facebook_user_id", id);
-            jObjectData.put("first_name", first_name);
-            jObjectData.put("last_name", last_name);
-            jObjectData.put("email", email);
-            jObjectData.put("username", username);
-            jObjectData.put("birthday", birthday);
-            jObjectData.put("gender", gender);
-            jObjectData.put("location", place);
-            jObjectData.put("display_photo", display_photo_url);
-
-            jArrayFacebookData.put("data", jObjectData);
-
-
-
-
-            if (Constants.LOGS) Log.e("FunctionCallsReceiver", "trip-point extracted");
-        } else if(Constants.WILL_ENTER_CAR.equals(action)) {
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(context,"willEnter");
-            builder.setContentText("Will enter car");
+            if (Constants.LOGS) Log.e( "FunctionCallsReceiver", "trip-point extracted" );
+        } else if (Constants.WILL_ENTER_CAR.equals( action )) {
+            NotificationCompat.Builder builder = new NotificationCompat.Builder( context, "willEnter" );
+            builder.setContentText( "Will enter car" );
             builder.setSmallIcon( hrituc.studenti.uniroma1.it.generocityframework.R.mipmap.ic_launcher );
             builder.setContentTitle( "FunctionCallsReceiver" );
-            NotificationManagerCompat.from(context).notify(10, builder.build());
-        } else if (action.equals("UPDATE_GEOFENCE_LIST")) {
-            String id = intent.getStringExtra("id");
-            double latitude = intent.getDoubleExtra("latitude",-1);
-            double longitude = intent.getDoubleExtra("longitude",-1);
-           // MainActivity.updateGefenceMap(id,latitude,longitude);
+            NotificationManagerCompat.from( context ).notify( 10, builder.build() );
+        } else if (action.equals( "UPDATE_GEOFENCE_LIST" )) {
+            String id = intent.getStringExtra( "id" );
+            double latitude = intent.getDoubleExtra( "latitude", -1 );
+            double longitude = intent.getDoubleExtra( "longitude", -1 );
+            // MainActivity.updateGefenceMap(id,latitude,longitude);
         }
     }
 }
