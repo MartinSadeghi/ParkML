@@ -79,50 +79,43 @@ public class FunctionCallsReceiver extends BroadcastReceiver {
 
             // Create Json Object using TripPoint  Data
             try {
-                jObjectData.put("latitude", lat);
-                jObjectData.put("longitude", lon);
-                jObjectData.put("speed", speed);
-                jObjectData.put("timestamp", timestamp);
-                try
-                {
+                jObjectData.put( "latitude", lat );
+                jObjectData.put( "longitude", lon );
+                jObjectData.put( "speed", speed );
+                jObjectData.put( "timestamp", timestamp );
+                //jObjectData.put( "parked", parked ) ;
+                try {
                     // Defined URL  where to send data
-                    URL url = new URL("/media/webservice/httppost.php");
+                    URL url = new URL( "http://10.10.6.108:9000/api" );
 
                     // Send POST data request
 
                     URLConnection conn = url.openConnection();
-                    conn.setDoOutput(true);
-                    OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
+                    conn.setDoOutput( true );
+                    OutputStreamWriter wr = new OutputStreamWriter( conn.getOutputStream() );
                     wr.write( jObjectData.toString() );
                     wr.flush();
 
                     // Get the server response
 
-                    reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                    reader = new BufferedReader( new InputStreamReader( conn.getInputStream() ) );
                     StringBuilder sb = new StringBuilder();
                     String line = null;
 
                     // Read Server Response
-                    while((line = reader.readLine()) != null)
-                    {
+                    while ((line = reader.readLine()) != null) {
                         // Append server response in string
-                        sb.append(line + "\n");
+                        sb.append( line + "\n" );
                     }
 
-                }
-                catch(Exception ex)
-                {
+                } catch (Exception ex) {
 
-                }
-                finally
-                {
-                    try
-                    {
+                } finally {
+                    try {
 
                         reader.close();
+                    } catch (Exception ex) {
                     }
-
-                    catch(Exception ex) {}
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

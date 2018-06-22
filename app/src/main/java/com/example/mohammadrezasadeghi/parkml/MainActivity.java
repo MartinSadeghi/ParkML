@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
-    private static int SPLASH_TIME_OUT = 4004;
+    private static int SPLASH_TIME_OUT = 3004;
     Button button2;
 
 

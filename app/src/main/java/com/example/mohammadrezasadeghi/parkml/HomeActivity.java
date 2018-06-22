@@ -1,5 +1,6 @@
 package com.example.mohammadrezasadeghi.parkml;
 
+import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -14,23 +15,43 @@ import hrituc.studenti.uniroma1.it.generocityframework.FrameworkLogic;
 
 public class HomeActivity extends AppCompatActivity {
     private Button button2 ;
+    private Button button1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         button2 = (Button) findViewById( R.id.button2 );
-        button2.setOnClickListener( new View.OnClickListener() {
+        button2.setOnClickListener( new View.OnClickListener(){
+
             @Override
             public void onClick(View v) {
-                openDialog();
+                openDialog1();
             }
         } );
+
+        button1 =(Button) findViewById( R.id.button1 );
+        button1.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openDialog2();
+            }
+        } );
+
     }
 
-    public void openDialog() {
+    public void openDialog1() {
         Dialog1 dialog = new Dialog1();
         dialog.show( getSupportFragmentManager(), "Example one" );
+
     }
+    public void openDialog2() {
+        Dialog2 dialog = new Dialog2();
+        dialog.show( getSupportFragmentManager(), "Example one" );
+
+    }
+
+
+
 
     public void StartListener(View view) {
         FrameworkInitializer fi = new FrameworkInitializer( this );
