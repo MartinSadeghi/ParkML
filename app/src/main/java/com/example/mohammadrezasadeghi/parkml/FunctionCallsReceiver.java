@@ -86,7 +86,7 @@ public class FunctionCallsReceiver extends BroadcastReceiver {
                 //jObjectData.put( "parked", parked ) ;
                 try {
                     // Defined URL  where to send data
-                    URL url = new URL( "http://10.10.6.108:9000/api" );
+                    URL url = new URL( "" );
 
                     // Send POST data request
 

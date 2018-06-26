@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
 import android.view.View;
 import android.widget.Button;
 import android.content.SharedPreferences;
@@ -34,6 +35,7 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 openDialog2();
+                StartListener( v);
             }
         } );
 
