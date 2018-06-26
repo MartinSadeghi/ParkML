@@ -72,6 +72,7 @@ public class FunctionCallsReceiver extends BroadcastReceiver {
             double lon = tripPoint.getLongitude();
             float speed = tripPoint.getSpeed();
             Timestamp timestamp = tripPoint.getTimestamp();
+
             //do stuff with these
 
             JSONObject jObjectData = new JSONObject();
