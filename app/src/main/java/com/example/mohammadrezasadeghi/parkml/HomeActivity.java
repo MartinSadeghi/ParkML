@@ -4,12 +4,15 @@ import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import android.view.View;
 import android.widget.Button;
 import android.content.SharedPreferences;
+
+import org.apache.commons.lang3.time.StopWatch;
 
 import hrituc.studenti.uniroma1.it.generocityframework.FrameworkInitializer;
 import hrituc.studenti.uniroma1.it.generocityframework.FrameworkLogic;
@@ -27,6 +30,7 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 openDialog1();
+                finish();
             }
         } );
 
@@ -36,6 +40,7 @@ public class HomeActivity extends AppCompatActivity {
             public void onClick(View v) {
                 openDialog2();
                 StartListener( v);
+
             }
         } );
 
