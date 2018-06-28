@@ -8,6 +8,11 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -74,6 +79,37 @@ public class FunctionCallsReceiver extends BroadcastReceiver {
             Timestamp timestamp = tripPoint.getTimestamp();
 
             //do stuff with these
+
+            /*
+
+            JSONObject json = new JSONObject();
+            try {
+                json.put("latitude", lat);
+                json.put("longitude", lon);
+                json.put("speed", speed);
+                json.put("timestamp", timestamp);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            String url = "";
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest( Request.Method.POST, url, json,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            serverResp.setText("String Response : "+ response.toString());
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    serverResp.setText("Error getting response");
+                }
+            });
+            jsonObjectRequest.setTag(REQ_TAG);
+            requestQueue.add(jsonObjectRequest);
+
+////////////////    */
+
 
             JSONObject jObjectData = new JSONObject();
             BufferedReader reader = null;
