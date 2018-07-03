@@ -2,8 +2,11 @@ package com.example.mohammadrezasadeghi.parkml;
 
 import android.app.AlertDialog;
 import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,16 +17,25 @@ import android.content.SharedPreferences;
 
 import org.apache.commons.lang3.time.StopWatch;
 
+import hrituc.studenti.uniroma1.it.generocityframework.Constants;
 import hrituc.studenti.uniroma1.it.generocityframework.FrameworkInitializer;
 import hrituc.studenti.uniroma1.it.generocityframework.FrameworkLogic;
 
 public class HomeActivity extends AppCompatActivity {
     private Button button2 ;
     private Button button1;
+    private BroadcastReceiver br;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        br = new FunctionCallsReceiver();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction( Constants.TRIP_POINT);
+        this.registerReceiver(br, filter);
+
         button2 = (Button) findViewById( R.id.button2 );
         button2.setOnClickListener( new View.OnClickListener(){
 
@@ -44,6 +56,13 @@ public class HomeActivity extends AppCompatActivity {
             }
         } );
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        unregisterReceiver( br );
     }
 
     public void openDialog1() {

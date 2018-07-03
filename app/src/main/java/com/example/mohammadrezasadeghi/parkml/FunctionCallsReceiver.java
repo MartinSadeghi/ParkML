@@ -22,10 +22,16 @@ import java.io.OutputStreamWriter;
 import java.net.URL;
 import java.net.URLConnection;
 import java.sql.Timestamp;
+import java.util.HashMap;
+import java.util.Map;
 
 import hrituc.studenti.uniroma1.it.generocityframework.Constants;
 import hrituc.studenti.uniroma1.it.generocityframework.ParkingLocation;
 import hrituc.studenti.uniroma1.it.generocityframework.TripPoint;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class FunctionCallsReceiver extends BroadcastReceiver {
     @Override
@@ -77,8 +83,64 @@ public class FunctionCallsReceiver extends BroadcastReceiver {
             double lon = tripPoint.getLongitude();
             float speed = tripPoint.getSpeed();
             Timestamp timestamp = tripPoint.getTimestamp();
+            float Parked = tripPoint.getSpeed();
 
-            //do stuff with these
+          
+
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl("https://server-parkml.apps.os.sapienzaapps.it/").
+                    addConverterFactory( GsonConverterFactory.create())
+                    .build();
+
+            ParkMLAPIInterface intf = retrofit.create( ParkMLAPIInterface.class );
+
+            Map<String, Object> postData = new HashMap<>();
+            postData.put( "Latitude", lat );
+            postData.put( "Longitude", lon );
+            postData.put( "Speed", speed );
+            postData.put( "Timestamp", timestamp );
+            postData.put( "Parked", Parked);
+
+            Call<String> res = intf.api( postData );
+            res.enqueue( new Callback<String>() {
+                @Override
+                public void onResponse(Call<String> call, retrofit2.Response<String> response) {
+                    Log.d("FunctionCallsReceiver", "Response: " + response.body());
+                    if ("1".equals(response.body())) {
+
+
+                    } else {
+
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<String> call, Throwable t) {
+                    Log.e("FunctionCallsReceiver", "Error: " + t.getMessage());
+                }
+            } );
+
+            
+
+            if (Constants.LOGS) Log.e( "FunctionCallsReceiver", "trip-point extracted" );
+        } else if (Constants.WILL_ENTER_CAR.equals( action )) {
+            NotificationCompat.Builder builder = new NotificationCompat.Builder( context, "willEnter" );
+            builder.setContentText( "Will enter car" );
+            builder.setSmallIcon( hrituc.studenti.uniroma1.it.generocityframework.R.mipmap.ic_launcher );
+            builder.setContentTitle( "FunctionCallsReceiver" );
+            NotificationManagerCompat.from( context ).notify( 10, builder.build() );
+        } else if (action.equals( "UPDATE_GEOFENCE_LIST" )) {
+            String id = intent.getStringExtra( "id" );
+            double latitude = intent.getDoubleExtra( "latitude", -1 );
+            double longitude = intent.getDoubleExtra( "longitude", -1 );
+            // MainActivity.updateGefenceMap(id,latitude,longitude);
+        }
+    }
+}
+
+
+
+//do stuff with these
 
             /*
 
@@ -111,7 +173,10 @@ public class FunctionCallsReceiver extends BroadcastReceiver {
 ////////////////    */
 
 
-            JSONObject jObjectData = new JSONObject();
+            
+            
+            
+            /*JSONObject jObjectData = new JSONObject();
             BufferedReader reader = null;
 
             // Create Json Object using TripPoint  Data
@@ -123,7 +188,7 @@ public class FunctionCallsReceiver extends BroadcastReceiver {
                 //jObjectData.put( "parked", parked ) ;
                 try {
                     // Defined URL  where to send data
-                    URL url = new URL( "" );
+                    URL url = new URL( "https://server-parkml.apps.os.sapienzaapps.it/api" );
 
                     // Send POST data request
 
@@ -146,7 +211,7 @@ public class FunctionCallsReceiver extends BroadcastReceiver {
                     }
 
                 } catch (Exception ex) {
-
+                    ex.printStackTrace();
                 } finally {
                     try {
 
@@ -156,46 +221,4 @@ public class FunctionCallsReceiver extends BroadcastReceiver {
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
-            }
-
-
-            if (Constants.LOGS) Log.e( "FunctionCallsReceiver", "trip-point extracted" );
-        } else if (Constants.WILL_ENTER_CAR.equals( action )) {
-            NotificationCompat.Builder builder = new NotificationCompat.Builder( context, "willEnter" );
-            builder.setContentText( "Will enter car" );
-            builder.setSmallIcon( hrituc.studenti.uniroma1.it.generocityframework.R.mipmap.ic_launcher );
-            builder.setContentTitle( "FunctionCallsReceiver" );
-            NotificationManagerCompat.from( context ).notify( 10, builder.build() );
-        } else if (action.equals( "UPDATE_GEOFENCE_LIST" )) {
-            String id = intent.getStringExtra( "id" );
-            double latitude = intent.getDoubleExtra( "latitude", -1 );
-            double longitude = intent.getDoubleExtra( "longitude", -1 );
-            // MainActivity.updateGefenceMap(id,latitude,longitude);
-        }
-    }
-}
-
-
-
-
-
-/*public class MyBroadcastReceiver extends BroadcastReceiver {
-    private static final String TAG = "MyBroadcastReceiver";
-    @Override
-    public void onReceive(Context context, Intent intent) {
-        Log.e("RECEIVER", "------------------RECEIVED NULL--------------");
-        if (intent != null) {
-            String action = intent.getAction();
-            if (action.equals( Constants.TRIP_POINT)) {
-                Log.e("RECEIVER", "------------------RECEIVED TRIPPOINT--------------");
-                StringBuilder sb = new StringBuilder();
-                sb.append("Action: " + intent.getAction() + "\n");
-                sb.append("URI: " + intent.toUri(Intent.URI_INTENT_SCHEME).toString() + "\n");
-                String log = sb.toString();
-                Log.d(TAG, log);
-                Toast.makeText(context, log, Toast.LENGTH_LONG).show();
-            }
-        }
-    }
-}
-   */
+            }*/
